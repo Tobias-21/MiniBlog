@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\Paginator;
+use App\Models\Article;
+
+class ArticleController extends Controller
+{
+    public function create() : View {
+        return view('articles.create');
+    }
+
+    public function index() : View {
+        $articles = Article::latest()->paginate(5);
+        return view('articles', compact('articles'));
+    }
+
+    public function store(Request $request):RedirectResponse {
+        // Validate and store the article
+        $request->validate([
+            'title' => 'required|string|min:5',
+            'content' => 'required|string',
+        ]);
+
+        // Logic to save the article in the database
+        $article = new Article() ;
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->save();
+
+        return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
+    }
+
+    public function edit(Article $article) : View {
+        
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(Request $request, Article $article) : RedirectResponse {
+        // Logic to update the article
+
+        $request->validate([
+            'title' => 'required|string|min:5',
+            'content' => 'required|string',
+        ]);
+
+        // This method should accept an ID and update the corresponding article
+        
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->save();
+
+        // For now, we will just return a redirect response
+        return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès.');
+        
+    }
+
+    public function show(Article $article) : View {
+        // Logic to show a single article
+        $article->load(['comments' => function ($query) {
+            $query->latest();
+        }]);
+        return view('articles.show', compact('article'));
+    }
+
+    public function destroy(Article $article) : RedirectResponse {
+
+        $article->delete();
+
+        return redirect()->route('articles.index');
+    }
+    
+}
