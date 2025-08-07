@@ -24,16 +24,23 @@
         <div class=" flex justify-end text-blue-600 space-x-3 ">
             <div>
                 <a href=" {{ route('articles.show', compact('article')) }} " class=" hover:underline me-3"> Voir</a>
+
+                @if (auth()->check() && auth()->user()->id === $article->user_id)
+                    
                 <a href=" {{ route('articles.edit',compact('article')) }} " class=" hover:underline"> Editer</a>
+
+                @endif
             </div>
             
+            @if (auth()->check() && auth()->user()->id === $article->user_id)
             <div>
                 <form action=" {{ route('articles.destroy',compact('article')) }} " method="post" onsubmit="return confirm('Confirmer la suppression ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" role="button" class=" hover:underline"> Supprimer </button>
-            </form>
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" role="button" class=" hover:underline"> Supprimer </button>
+                </form>
             </div>
+            @endif
             
             
         </div>

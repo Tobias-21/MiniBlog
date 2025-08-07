@@ -18,6 +18,8 @@
     <form action="{{ route('articles.store') }}" method="post">
         @csrf
 
+        
+        
         <div class=" my-7">
             <x-label for="title" label="Titre de l'article" />
             <input type="text" name="title" id="title" class=" w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('title') }}" required> 

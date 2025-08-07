@@ -41,6 +41,9 @@
     </div>
     
 
+    
+    @if (auth()->check() && auth()->user()->id !== $article->user_id)
+        
     <div class="mt-15">
         <h2 class="text-xl font-semibold text-pink-500 text-center">Ajouter un commentaire</h2>
     </div>
@@ -66,4 +69,7 @@
             </button>
         </div>
     </form>
+
+    @endif
+
 </x-layouts.app>

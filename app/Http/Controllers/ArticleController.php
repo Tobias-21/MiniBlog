@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Article;
 
 class ArticleController extends Controller
@@ -24,13 +24,18 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|min:5',
             'content' => 'required|string',
+
         ]);
+        
 
         // Logic to save the article in the database
         $article = new Article() ;
         $article->title = $request->input('title');
         $article->content = $request->input('content');
+        $article->user_id = Auth::id();
         $article->save();
+        
+         
 
         return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
     }
