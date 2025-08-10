@@ -15,10 +15,8 @@
         </div>
     @endif
 
-    <form action="{{ route('articles.store') }}" method="post">
+    <form action="{{ route('articles.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-
-        
         
         <div class=" my-7">
             <x-label for="title" label="Titre de l'article" />
@@ -28,8 +26,14 @@
 
         <div class=" my-7">
             <x-label for="content" label="Contenu de l'article" />
-            <input type="text" name="content" id="content" class="w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('content') }}" required>
+            <textarea type="text" name="content" id="content" class="w-full px-4 py-2 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('content') }}" required> </textarea>
            <x-error field="content" />
+        </div>
+
+        <div class="my-7">
+            <x-label for="photo" label="Photo de l'article" />
+            <input type="file" name="photo" id="photo" class="w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" required>
+            <x-error field="photo" />
         </div>
 
         <div class="flex justify-end">

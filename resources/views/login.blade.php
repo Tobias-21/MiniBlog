@@ -22,13 +22,13 @@
 
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2">
+            <input type="email" name="email" id="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('email') }}" >
             <x-error field="email" class="text-red-500 text-sm mt-1" />
         </div>
 
         <div class="mb-4">
             <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-            <input type="password" name="password" id="password" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2">
+            <input type="password" name="password" id="password" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('password') }}" >
             <x-error field="password" class="text-red-500 text-sm mt-1" />
         </div>
 

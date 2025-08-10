@@ -15,7 +15,8 @@ class ArticleController extends Controller
     }
 
     public function index() : View {
-        $articles = Article::latest()->paginate(5);
+
+        $articles = Article::withCount('comments')->latest()->paginate(5);
         return view('articles', compact('articles'));
     }
 
@@ -24,6 +25,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|min:5',
             'content' => 'required|string',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048' // Validate photo if provided
 
         ]);
         
@@ -32,21 +34,28 @@ class ArticleController extends Controller
         $article = new Article() ;
         $article->title = $request->input('title');
         $article->content = $request->input('content');
+        $article->photo = $request->file('photo')->store('photos', 'public'); // Store photo if provided
         $article->user_id = Auth::id();
         $article->save();
         
-         
-
         return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
     }
 
-    public function edit(Article $article) : View {
+    public function edit(Article $article) {
+
+        if(Auth::user()->id !== $article->user_id) {
+            return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cet article.');
+        }
         
         return view('articles.edit', compact('article'));
     }
 
     public function update(Request $request, Article $article) : RedirectResponse {
         // Logic to update the article
+
+        if(Auth::user()->id !== $article->user_id) {
+            return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cet article.');
+        }
 
         $request->validate([
             'title' => 'required|string|min:5',
@@ -73,6 +82,10 @@ class ArticleController extends Controller
     }
 
     public function destroy(Article $article) : RedirectResponse {
+
+        if(Auth::user()->id !== $article->user_id) {
+            return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cet article.');
+        }
 
         $article->delete();
 

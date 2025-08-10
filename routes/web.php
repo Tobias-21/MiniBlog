@@ -7,26 +7,25 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware("guest")->group(function () {
+    Route::get('/register', [UserController::class, 'index'])->name('register');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'doLogin'])->name('auth.doLogin');
+    
 });
 
-
-// Routes publiques
-Route::resource('articles', ArticleController::class)->only(['index', 'show']);
-
-// Routes protégées
-Route::resource('articles', ArticleController::class)->only(['create', 'store', 'edit', 'update', 'destroy'])->middleware('auth');
+Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 
 
-Route::resource('comments', CommentController::class)->middleware('auth');
+Route::middleware("auth")->group(function () {
+    Route::resource('articles', ArticleController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('comments', CommentController::class);
+    Route::resource('users', UserController::class);
+    Route::delete('/login', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
-Route::resource('users', UserController::class);
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
-
-
-Route::get('/register', [UserController::class, 'index'])->name('register');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'doLogin'])->name('auth.doLogin');
-Route::delete('/login', [AuthController::class, 'logout'])->name('auth.logout');
-
+/*Route::get('/', function () {
+    return view('welcome');
+});*/

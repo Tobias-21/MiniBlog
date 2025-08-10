@@ -32,6 +32,8 @@
                 <h3 class=" font-medium text-base mb-1 text-indigo-800"> {{ $comment->name }}</h3>
 
                 <p class=" text-gray-700"> {{ $comment->comment }} </p>
+
+                <p class=" text-gray-500 font-mono text-sm mt-2"> Posté le {{ $comment->created_at->format('d/m/Y H:i') }} </p>
             </div>
         @empty
 
@@ -53,13 +55,7 @@
         <input type="hidden" name="article_id" value="{{ $article->id }}">
 
         <div class="mb-4">
-            <x-label for="name" label="Votre nom" />
-            <input type="text" name="name" id="name" class="w-full px-3 py-2 border rounded-md" value="{{ old('name') }}" required>
-            <x-error field="name" />
-        </div>
-
-        <div class="mb-4">
-            <x-label for="comment" label="Votre commentaire" />
+            
             <textarea name="comment" id="comment" class="w-full px-3 py-2 border rounded-md" required>{{ old('comment') }}</textarea>
             <x-error field="comment" />
         </div>

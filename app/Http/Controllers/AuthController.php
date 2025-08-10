@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $credentials = session()->regenerate();
-            return redirect()->intended('articles')->with('success', 'Vous êtes connecté avec succès.');
+            return redirect()->intended('/')->with('success', 'Vous êtes connecté avec succès.');
         }
 
         return back()->withErrors([
@@ -34,6 +34,6 @@ class AuthController extends Controller
     public function logout() : RedirectResponse
     {
         Auth::logout();
-        return redirect('articles')->with('success', 'Vous êtes déconnecté avec succès.');
+        return redirect()->route('articles.index')->with('success', 'Vous êtes déconnecté avec succès.');
     }
 }
