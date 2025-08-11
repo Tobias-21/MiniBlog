@@ -20,6 +20,13 @@
         Liste des articles
     </x-slot:title>
 
+    <x-slot:search>
+        <div class="flex justify-center mb-15">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"> <i class="bi bi-search "></i></button>
+        </div>
+    </x-slot:search>
+
     @forelse($articles as $article)
 
     <div class=" px-9 py-4 shadow-md my-7 ">

@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{$titre}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
@@ -35,6 +37,11 @@
 
     <main class="container mx-auto p-4 max-w-4xl">
        
+        <form>
+            {{ $search ?? '' }}
+        </form>
+
+
         <h1 class="text-3xl font-bold my-5 text-amber-500 text-center">{{ $title }}</h1>
         {{ $slot }}
 

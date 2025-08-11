@@ -14,10 +14,18 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-    public function index() : View {
+    public function index(Request $request) : View {
 
-        $articles = Article::withCount('comments')->latest()->paginate(5);
-        return view('articles', compact('articles'));
+        $search = $request->input('search');
+        $articles = Article::withCount('comments')->with('user')->when($search, function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('content', 'like', '%' . $search . '%')
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('name', 'like', '%' . $search . '%');
+                  });
+        })->latest()->paginate(5);
+        return view('articles', compact('articles','search'));
+        
     }
 
     public function store(Request $request):RedirectResponse {
