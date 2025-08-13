@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 
 Route::middleware("guest")->group(function () {
     Route::get('/register', [UserController::class, 'index'])->name('register');
+    Route::post('/register',[UserController::class,'store'])->name('users.store');
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'doLogin'])->name('auth.doLogin');
     

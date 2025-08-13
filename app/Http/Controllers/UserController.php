@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\User;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -22,20 +24,24 @@ class UserController extends Controller
 
    
 
-    public function store(Request $request) : RedirectResponse{
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'bail|required|string|max:255',
+            'email' => 'bail|required|string|email|max:255|unique:users',
+            'password' => 'bail|required|string|min:8|confirmed',
         ]);
 
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
+        if ($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
 
-        return redirect()->route('login')->with('success', 'Vos informations sont enregistrées avec succès.');
+        User::Create($validator->validated());
+        //$user->name = $request->input('name');
+        // $user->email = $request->input('email');
+        // $user->password = bcrypt($request->input('password'));
+        // $user->save();
+
+        // return redirect()->route('login')->with('success', 'Vos informations sont enregistrées avec succès.');
 
     }
 

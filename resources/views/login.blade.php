@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <form action="{{ route('auth.doLogin') }}" method="POST" class=" w-2xs md:w-1/3 mt-10 p-10  bg-yellow-50 rounded-lg shadow-md" >
+    <form action="{{ route('auth.doLogin') }}" method="POST" class=" w-full md:w-2xl lg:w-1/3 mt-10 p-10  bg-yellow-50 rounded-lg shadow-md" >
         @csrf
 
         <div class="mb-4">
