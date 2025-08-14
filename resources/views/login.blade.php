@@ -9,11 +9,15 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 
-    <h1 class="text-3xl text-center text-blue-700 font-bold">Connexion</h1>    
+    <h1 class="text-3xl text-center text-pink-700 font-bold">Connexion</h1>    
 
     @if (session('success'))
-        <div class="bg-green-200 text-green-700 p-4 rounded-md mb-4">
+        <div class="bg-green-200 text-green-700 p-4 rounded-md my-3">
             {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="bg-red-200 text-red-700 p-4 rounded-md my-3">
+            {{ session('error') }}
         </div>
     @endif
 

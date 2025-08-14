@@ -16,7 +16,9 @@
                 <li><a href="{{ route('articles.index') }}" class="text-white hover:underline">Articles</a></li>
                 @auth
                 <li><a href="{{ route('articles.create') }}" class="text-white hover:underline">Créer un article</a></li>
+                <li> <a href="{{ route('articles.favoris') }}" class="text-white hover:underline">Mes Favoris</a> </li>
                 @endauth
+                
             </ul>
 
             <ul class="flex space-x-4 float-right">
@@ -37,9 +39,9 @@
 
     <main class="container mx-auto p-4 max-w-4xl">
        
-        <form>
+        <div>
             {{ $search ?? '' }}
-        </form>
+        </div>
 
 
         <h1 class="text-3xl font-bold my-5 text-amber-500 text-center">{{ $title }}</h1>

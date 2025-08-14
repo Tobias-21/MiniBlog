@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class User extends Authenticatable
 {
@@ -49,5 +51,16 @@ class User extends Authenticatable
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function favoris() {
+        return $this->belongsToMany(Article::class,'favoris','user_id','article_id')->withTimestamps();
+    }
+
+    public function ratings(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'ratings', 'user_id', 'article_id')
+            ->withPivot('rating')
+            ->withTimestamps();
     }
 }

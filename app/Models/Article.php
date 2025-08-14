@@ -13,4 +13,13 @@ class Article extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function favoris() {
+        return $this->belongsToMany(User::class,'favoris','user_id','article_id')->withTimestamps();
+    }
+
+    public function ratings() {
+        return $this->hasMany(Rating::class, 'article_id');
+            
+    }
 }

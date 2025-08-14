@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('favoris', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('article_id')->constrained()->onDelete('cascade');
-            $table->unique(['user_id', 'article_id'], 'user_article_unique'); // Ensure a user can favorite an article only once
+            $table->integer('rating')->default(0); // Assuming rating is an integer, you can adjust this based on your requirements
+            $table->unique(['user_id', 'article_id'], 'users_articles_uniques'); // Ensure a user can rate an article only once
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('favoris');
+        Schema::dropIfExists('ratings');
     }
 };

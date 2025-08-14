@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Favori extends Model
+class Rating extends Model
 {
-    protected $fillable = [
+    public $fillable = [
         'user_id',
         'article_id',
-        
+        'rating',
     ];
-    
-    public function user() {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function article() {
+    public function article()
+    {
         return $this->belongsTo(Article::class);
     }
 }

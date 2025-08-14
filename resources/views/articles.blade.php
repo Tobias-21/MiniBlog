@@ -1,12 +1,12 @@
 <x-layouts.app>
 
     @if (session()->has('success'))
-        <div class="my-3 list-disc list-inside text-sm text-green-600 alert alert-success">
+        <div class="my-3 list-disc list-inside text-sm bg-green-200 alert alert-success p-4 rounded-md text-green-700">
             {{ session('success') }}
         </div>
 
     @elseif (session()->has('error'))
-        <div class="my-3 list-disc list-inside text-sm text-red-600 alert alert-error">
+        <div class="my-3 list-disc list-inside bg-red-300 text-sm text-red-700 alert alert-error">
             {{ session('error') }}
         </div>
     @endif
@@ -22,10 +22,19 @@
 
     <x-slot:search>
         <div class="flex justify-center mb-15">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button type="submit" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"> <i class="bi bi-search "></i></button>
+            <form action="{{ route('articles.index') }}" method="GET" class="flex">
+                @csrf
+                @method('GET')
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="ml-2 bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600"> <i class="bi bi-search "></i></button>
+            </form>
         </div>
     </x-slot:search>
+
+    @php
+        $userFavoris = auth()->user() ? auth()->user()->favoris->pluck('id')->toArray() : [];
+               
+    @endphp
 
     @forelse($articles as $article)
 
@@ -35,32 +44,60 @@
                 <img src="{{ asset('storage/' . $article->photo) }}" alt="Photo de l'article" class=" w-30 h-30 object-cover rounded-lg">
             
         </div>
-        <h2 class=" text-2xl font-bold text-emerald-800 mb-1.5"> {{ $article->title }} </h2>
+        <div class=" flex space-x-3 mb-3 items-center">
+        <h2 class=" text-2xl font-bold text-emerald-800"> {{ $article->title }} </h2>
+        
+        @if (auth()->check() && auth()->user())
+            <form action=" {{ route('favoris') }} " method="post">
+                @csrf
+                @method('POST')
 
+                <input type="hidden" value="{{ $article->id }}" name="article_id">
+                @if ( in_array($article->id, $userFavoris) )
+                    <button type="submit"> <i class="bi bi-heart-fill" style="color: red;"></i> </button>
+                @else
+                    <button type="submit"> <i class="bi bi-heart" style="color: red;"></i> </button>
+                @endif
+            </form>
+        @endif
+        </div>
         <p class=" text-gray-700 font-mono text-sm"> Auteur : {{ $article->user->name }} </p>
         <p class=" text-gray-600 font-mono text-sm"> <span class=" pe-4">Créé le : {{ $article->created_at->format('d/m/Y H:i') }}</span>  {{ $article->comments_count }} commentaire(s) </p>
+        <p class=" text-gray-600 font-mono text-sm"> <span class=" pe-4">
+            
+            @php
+                $avg = round($article->ratings->avg('rating') ?? 0);
+                
+            @endphp
+            @for ($i = 1 ; $i <= 5; $i++)
+                
+                @if ( $i <= $avg)
+                    <i class="bi bi-star-fill text-yellow-500"></i>
+                @else
+                    <i class="bi bi-star text-gray-600"></i>
+                @endif
+            
+            @endfor
+        
+        </span> </p>
 
 
         <div class=" flex justify-end text-blue-600 space-x-3 ">
-            <div>
-                <a href=" {{ route('articles.show', compact('article')) }} " class=" hover:underline me-3"> Voir</a>
+            <div class=" flex space-x-2">
+               <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.show', compact('article')) }} "> Voir</a></button> 
 
                 @if (auth()->check() && auth()->user()->id === $article->user_id)
                     
-                <a href=" {{ route('articles.edit',compact('article')) }} " class=" hover:underline"> Editer</a>
+                <button class=" bg-amber-500 py-1 px-2 rounded-lg text-white"><a href=" {{ route('articles.edit',compact('article')) }} "> Editer</a></button>
 
-                @endif
-            </div>
-            
-            @if (auth()->check() && auth()->user()->id === $article->user_id)
-            <div>
                 <form action=" {{ route('articles.destroy',compact('article')) }} " method="post" onsubmit="return confirm('Confirmer la suppression ?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" role="button" class=" hover:underline"> Supprimer </button>
+                    <button type="submit" role="button" class=" bg-red-500 py-1 px-2 rounded-lg text-white "> Supprimer </button>
                 </form>
+                @endif
             </div>
-            @endif
+            
             
             
         </div>

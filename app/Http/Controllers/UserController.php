@@ -36,12 +36,8 @@ class UserController extends Controller
         }
 
         User::Create($validator->validated());
-        //$user->name = $request->input('name');
-        // $user->email = $request->input('email');
-        // $user->password = bcrypt($request->input('password'));
-        // $user->save();
-
-        // return redirect()->route('login')->with('success', 'Vos informations sont enregistrées avec succès.');
+        
+         return redirect()->route('login')->with('success', 'Vos informations sont enregistrées avec succès.');
 
     }
 

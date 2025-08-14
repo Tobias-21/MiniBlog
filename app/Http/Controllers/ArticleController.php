@@ -17,13 +17,15 @@ class ArticleController extends Controller
     public function index(Request $request) : View {
 
         $search = $request->input('search');
-        $articles = Article::withCount('comments')->with('user')->when($search, function ($query) use ($search) {
+        
+        $articles = Article::with('favoris','ratings','user')->withAvg('ratings','rating')->withCount('comments')->when($search, function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                   ->orWhere('content', 'like', '%' . $search . '%')
                   ->orWhereHas('user', function ($q) use ($search) {
                       $q->where('name', 'like', '%' . $search . '%');
                   });
         })->latest()->paginate(5);
+
         return view('articles', compact('articles','search'));
         
     }
