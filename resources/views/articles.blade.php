@@ -21,13 +21,23 @@
     </x-slot:title>
 
     <x-slot:search>
-        <div class="flex justify-center mb-15">
+        <div class="flex justify-center mb-10">
             <form action="{{ route('articles.index') }}" method="GET" class="flex">
                 @csrf
                 @method('GET')
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button type="submit" class="ml-2 bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600"> <i class="bi bi-search "></i></button>
             </form>
+        </div>
+
+        <div>
+            <select onchange="window.location.href = this.value" class=" p-4 shadow text-gray-600 focus:outline-0">
+                <option value="{{ route('articles.index') }}" @selected(empty($slug))> Toutes les categories</option>
+                @foreach ($categories as $categorie)
+                    <option value="{{ route('articles.categorie' , ['slug' => $categorie->slug]) }}" @if ($slug == $categorie->slug) selected @endif > {{ $categorie->name }} </option>
+                @endforeach
+                
+            </select>
         </div>
     </x-slot:search>
 
@@ -84,7 +94,7 @@
 
         <div class=" flex justify-end text-blue-600 space-x-3 ">
             <div class=" flex space-x-2">
-               <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.show', compact('article')) }} "> Voir</a></button> 
+               <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.show', ['slug' => $article->slug]) }} "> Voir</a></button> 
 
                 @if (auth()->check() && auth()->user()->id === $article->user_id)
                     

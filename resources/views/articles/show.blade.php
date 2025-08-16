@@ -12,10 +12,11 @@
 
     <div class="my-7 border-t-2 border-t-amber-500 ">
         <div class="my-5">
-        <img src="{{ asset('storage/' . $article->photo) }}" alt="Photo de l'article" class=" w-2xs h-1/2 object-cover rounded-lg shadow-md">
+        <img src="{{ asset('storage/' . $article->photo) }}" alt="Photo de l'article" class=" w-2xs h-72 object-cover rounded-lg shadow-md">
         </div>
         <h1 class=" text-2xl font-bold text-indigo-800 mt-5 mb-1"> {{ $article->title }}</h1>
         <p class="text-gray-700">{{ $article->content }}</p>
+        <p class="text-gray-700"> Catégorie : {{ $article->categori->name }}</p>
     </div>
 
     <div>

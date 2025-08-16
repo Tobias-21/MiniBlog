@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Categori;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +17,30 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Categori::create([
+            'name' => 'Aliment',
+            'slug' => Str::slug('aliment','_')
         ]);
+
+        Categori::create([
+            'name' => 'Santé',
+            'slug' => Str::slug('santé','_')
+        ]);
+
+        Categori::create([
+            'name' => 'Sport',
+            'slug' => Str::slug('sport','_')
+        ]);
+
+        Categori::create([
+            'name' => 'Technologie',
+            'slug' => Str::slug('technologie','_')
+        ]);
+
+        Categori::create([
+            'name' => 'Culture',
+            'slug' => Str::slug('culture','_')
+        ]);
+        
     }
 }

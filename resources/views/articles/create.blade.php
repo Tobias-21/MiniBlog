@@ -30,6 +30,15 @@
            <x-error field="content" />
         </div>
 
+        <div class=" my-7">
+            <x-label for="categorie_id" label="Categorie de l'article" />
+            <select name="categorie_id" class=" w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0 ">
+                @foreach ($categories as $categorie)
+                    <option value="{{ $categorie->id }}"> {{ $categorie->name }} </option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="my-7">
             <x-label for="photo" label="Photo de l'article" />
             <input type="file" name="photo" id="photo" class="w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" required>

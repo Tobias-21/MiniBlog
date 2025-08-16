@@ -6,27 +6,45 @@ use illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use App\Models\Article;
+use App\Models\Categori;
 
 class ArticleController extends Controller
 {
     public function create() : View {
-        return view('articles.create');
+
+        $categories = Categori::all();
+        return view('articles.create',\compact('categories'));
     }
 
-    public function index(Request $request) : View {
+    public function index(Request $request, $slug = null) : View {
 
         $search = $request->input('search');
         
-        $articles = Article::with('favoris','ratings','user')->withAvg('ratings','rating')->withCount('comments')->when($search, function ($query) use ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
+       
+        $articles = Article::with(['favoris','ratings','user'])->withAvg('ratings','rating')->withCount('comments');
+
+        if($slug){
+            $articles->whereHas('categori', function ($query) use ($slug) {
+                $query->where('slug',$slug);
+            });
+        }
+        
+        if($search){
+            $articles->where('title', 'like', '%' . $search . '%')
                   ->orWhere('content', 'like', '%' . $search . '%')
                   ->orWhereHas('user', function ($q) use ($search) {
                       $q->where('name', 'like', '%' . $search . '%');
                   });
-        })->latest()->paginate(5);
+                
+        }
 
-        return view('articles', compact('articles','search'));
+        $articles = $articles->latest()->paginate(5);
+
+        $categories = Categori::all();
+
+        return view('articles', compact('articles','search','categories','slug'));
         
     }
 
@@ -39,13 +57,14 @@ class ArticleController extends Controller
 
         ]);
         
-
         // Logic to save the article in the database
         $article = new Article() ;
         $article->title = $request->input('title');
         $article->content = $request->input('content');
         $article->photo = $request->file('photo')->store('photos', 'public'); // Store photo if provided
         $article->user_id = Auth::id();
+        $article->categori_id = $request->input('categorie_id');
+        $article->slug = Str::slug($request->input('title'),'_');
         $article->save();
         
         return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
@@ -56,6 +75,7 @@ class ArticleController extends Controller
         if(Auth::user()->id !== $article->user_id) {
             return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cet article.');
         }
+
         
         return view('articles.edit', compact('article'));
     }
@@ -76,6 +96,7 @@ class ArticleController extends Controller
         
         $article->title = $request->input('title');
         $article->content = $request->input('content');
+        $article->slug = Str::slug($request->input('title'),'_');
         $article->save();
 
         // For now, we will just return a redirect response
@@ -83,11 +104,14 @@ class ArticleController extends Controller
         
     }
 
-    public function show(Article $article) : View {
+    public function show(string $slug) : View {
         // Logic to show a single article
+
+        $article = Article::where('slug',$slug)->firstOrFail();
         $article->load(['comments' => function ($query) {
             $query->latest();
         }]);
+        
         return view('articles.show', compact('article'));
     }
 
