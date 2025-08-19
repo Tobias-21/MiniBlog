@@ -8,7 +8,15 @@
         Informations sur l'article
     </x-slot:title>
 
-    
+    @if (session('success'))
+        <div class="bg-green-200 text-green-700 p-4 rounded-md my-3">
+            {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="bg-red-200 text-red-700 p-4 rounded-md my-3">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="my-7 border-t-2 border-t-amber-500 ">
         <div class="my-5">
@@ -65,11 +73,40 @@
 
         @forelse ($article->comments as $comment)
             <div class=" p-9 shadow-md rounded-2xl">
-                <h3 class=" font-medium text-base mb-1 text-indigo-800"> {{ $comment->name }}</h3>
+                <h3 class=" font-bold  mb-1 text-indigo-800"> {{ $comment->name }}</h3>
 
                 <p class=" text-gray-700"> {{ $comment->comment }} </p>
 
-                <p class=" text-gray-500 font-mono text-sm mt-2"> Posté le {{ $comment->created_at->format('d/m/Y H:i') }} </p>
+                <p class=" text-gray-500 font-mono text-sm mt-2"> Posté le {{ $comment->created_at->format('d/m/Y H:i') }}  </p>
+                @if (auth()->check())
+                <a href="#"  class="reponse font-medium flex justify-end text-indigo-800"> Répondre </a>
+                @endif
+
+                 @if ($comment->replies->count() > 0)
+                    <div class="my-3 ml-6">
+                        <h4 class="text-sm font-semibold text-gray-600">Réponses :</h4>
+                        @foreach ($comment->replies as $reply)
+                            <div class=" my-2 p-4 rounded-md shadow-sm">
+                                <p class="text-gray-700 mb-1.5">{{ $reply->reply }}</p>
+                                <p class="text-xs text-gray-500 font-mono mt-1">Répondu par {{ $reply->user->name }} le {{ $reply->created_at->format('d/m/Y H:i') }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                
+                <div class="form" style=" margin-left: 20px; display:none;">
+                    <form action="{{ route('comments.reply', $comment->id) }}" method="POST" class="mt-3">
+                        @csrf
+                        <input type="hidden" name="article_id" value="{{ $article->id }}">
+                        <textarea name="reply" id="reply" placeholder="Écrire une réponse..." class=" w-full px-3 py-2 border rounded-md">{{ old('reply') }}</textarea>
+                       
+
+                        <div class="flex justify-end mt-2">
+                            <button class=" bg-amber-600 py-1 px-4 rounded hover:bg-amber-500" >Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+               
             </div>
         @empty
 
@@ -78,7 +115,6 @@
         @endforelse
     </div>
     
-
     
     @if (auth()->check() && auth()->user()->id !== $article->user_id)
         
@@ -92,7 +128,7 @@
 
         <div class="mb-4">
             
-            <textarea name="comment" id="comment" class="w-full px-3 py-2 border rounded-md" required>{{ old('comment') }}</textarea>
+            <textarea name="comment" id="comment" class="w-full px-3 py-2 border rounded-md" placeholder="Ecrire un commentaire" required>{{ old('comment') }}</textarea>
             <x-error field="comment" />
         </div>
         <div class="flex justify-end">

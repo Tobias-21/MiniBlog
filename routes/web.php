@@ -28,6 +28,7 @@ Route::middleware("auth")->group(function () {
     Route::post('/',[FavoriController::class,'toggleFavorite'])->name('favoris');
     Route::get('/articles/favoris',[FavoriController::class,'favoris'])->name('articles.favoris');
     Route::post('/ratings', [RatingController::class, 'ratings'])->name('ratings');
+    Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
 
 });
 

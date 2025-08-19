@@ -20,9 +20,7 @@ class ArticleController extends Controller
 
     public function index(Request $request, $slug = null) : View {
 
-        $search = $request->input('search');
-        
-       
+        $search = $request->input('search');        
         $articles = Article::with(['favoris','ratings','user'])->withAvg('ratings','rating')->withCount('comments');
 
         if($slug){
@@ -41,11 +39,9 @@ class ArticleController extends Controller
         }
 
         $articles = $articles->latest()->paginate(5);
-
         $categories = Categori::all();
 
         return view('articles', compact('articles','search','categories','slug'));
-        
     }
 
     public function store(Request $request):RedirectResponse {

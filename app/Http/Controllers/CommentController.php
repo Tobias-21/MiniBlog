@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Comment;
+use App\Models\Reply;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,6 +30,28 @@ class CommentController extends Controller
         $comment->comment = $request->input('comment');
         $comment->save();
 
+        return redirect()->back();
+    }
+
+    public function reply(Request $request, $commentId): RedirectResponse
+    {
+        if(!Auth::check()) {
+            return redirect()->back()->with('error', 'Vous devez être connecté pour répondre à un commentaire.');
+        }
+        // Logic to store a reply to a comment
+        $request->validate([
+            'reply' => 'required|string|min:3',
+        ]);
+
+        // Check if the comment exists
+        $comment = Comment::findOrFail($commentId);
+
+        // Logic to save the reply in the database
+        Reply::create([
+            'comment_id' => $comment->id,
+            'user_id' => Auth::id(), // Assuming the user is authenticated
+            'reply' => $request->input('reply'),
+        ]);        
         return redirect()->back();
     }
 
