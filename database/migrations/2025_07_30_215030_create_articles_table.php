@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->foreignId('categori_id')->constrained()->onDelete('cascade');
             $table->string('slug');
+            $table->string('status')->default('en attente'); 
             $table->timestamps();
         });
     }

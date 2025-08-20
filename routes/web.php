@@ -29,6 +29,8 @@ Route::middleware("auth")->group(function () {
     Route::get('/articles/favoris',[FavoriController::class,'favoris'])->name('articles.favoris');
     Route::post('/ratings', [RatingController::class, 'ratings'])->name('ratings');
     Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+    Route::get('/articles/en_attentes', [ArticleController::class, 'enAttente'])->name('articles.en_attente');
+    Route::post('/articles/{slug}/validate', [ArticleController::class, 'validateArticle'])->name('articles.validate');
 
 });
 
@@ -36,6 +38,4 @@ Route::get('categorie/{slug}/articles',[ArticleController::class,'index'])->name
 Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
 
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+

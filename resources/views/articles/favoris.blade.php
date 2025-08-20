@@ -40,7 +40,7 @@
 
         <div class=" flex justify-end text-blue-600 space-x-3 ">
             <div class=" flex space-x-2">
-               <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.show', compact('article')) }} "> Voir</a></button> 
+               <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.show', ['slug' => $article->slug]) }} "> Voir</a></button> 
 
                 @if (auth()->check() && auth()->user()->id === $article->user_id)
                     

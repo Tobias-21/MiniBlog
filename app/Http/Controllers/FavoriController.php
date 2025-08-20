@@ -55,8 +55,6 @@ class FavoriController extends Controller
                   });
         })->latest()->paginate(5);
 
-
         return view('articles.favoris',compact('articles','searchs'));
-        
     }
 }

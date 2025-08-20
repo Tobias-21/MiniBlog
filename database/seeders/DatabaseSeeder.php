@@ -42,5 +42,12 @@ class DatabaseSeeder extends Seeder
             'slug' => Str::slug('culture','_')
         ]);
         
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin21@gmail.com',
+            'password' => bcrypt('admin21'),
+            'role' => 'admin', // Assigning the admin role
+        ]);
+
     }
 }

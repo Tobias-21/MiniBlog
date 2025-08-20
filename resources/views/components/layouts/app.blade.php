@@ -17,6 +17,8 @@
                 @auth
                 <li><a href="{{ route('articles.create') }}" class="text-white hover:underline">Créer un article</a></li>
                 <li> <a href="{{ route('articles.favoris') }}" class="text-white hover:underline">Mes Favoris</a> </li>
+                <li><a href="{{ route('articles.en_attente') }}" class="text-white hover:underline">Articles en attente</a></li>
+               
                 @endauth
                 
             </ul>

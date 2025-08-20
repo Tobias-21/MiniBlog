@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Article;
 use App\Models\Categori;
+use App\Models\User;
 
 class ArticleController extends Controller
 {
@@ -21,7 +22,7 @@ class ArticleController extends Controller
     public function index(Request $request, $slug = null) : View {
 
         $search = $request->input('search');        
-        $articles = Article::with(['favoris','ratings','user'])->withAvg('ratings','rating')->withCount('comments');
+        $articles = Article::with(['favoris','ratings','user'])->withAvg('ratings','rating')->withCount('comments')->where('status', 'validé'); // Only show validated articles
 
         if($slug){
             $articles->whereHas('categori', function ($query) use ($slug) {
@@ -63,7 +64,7 @@ class ArticleController extends Controller
         $article->slug = Str::slug($request->input('title'),'_');
         $article->save();
         
-        return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
+        return redirect()->route('articles.en_attente')->with('success', 'Article créé avec succès.');
     }
 
     public function edit(Article $article) {
@@ -109,6 +110,29 @@ class ArticleController extends Controller
         }]);
         
         return view('articles.show', compact('article'));
+    }
+
+    public function enAttente() : View {
+        
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            $articles = Article::where('status', 'en attente')->get();
+        } elseif(Auth::check() && Auth::user()->role == 'user') {
+            $articles = Article::where('status', 'en attente')->where('user_id', auth::id())->get();
+        }        
+        
+        return view('articles.en_attentes', compact('articles'));
+    }
+
+    public function validateArticle(string $slug) : RedirectResponse {
+
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            $article = Article::where('slug', $slug)->firstOrFail();
+            $article->status = 'validé';
+            $article->save();
+            return redirect()->route('articles.en_attente')->with('success', 'Article validé avec succès.');
+        }
+
+        return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à valider cet article.');
     }
 
     public function destroy(Article $article) : RedirectResponse {
