@@ -7,7 +7,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
+use App\Mail\NewArticleNotification;
 use App\Models\Article;
+use Illuminate\Support\Facades\Mail;
 
 Route::middleware("guest")->group(function () {
     Route::get('/register', [UserController::class, 'index'])->name('register');
@@ -31,7 +33,7 @@ Route::middleware("auth")->group(function () {
     Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
     Route::get('/articles/en_attentes', [ArticleController::class, 'enAttente'])->name('articles.en_attente');
     Route::post('/articles/{slug}/validate', [ArticleController::class, 'validateArticle'])->name('articles.validate');
-
+    Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
 });
 
 Route::get('categorie/{slug}/articles',[ArticleController::class,'index'])->name('articles.categorie');

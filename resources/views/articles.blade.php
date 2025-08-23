@@ -6,7 +6,7 @@
         </div>
 
     @elseif (session()->has('error'))
-        <div class="my-3 list-disc list-inside bg-red-300 text-sm text-red-700 alert alert-error">
+        <div class="my-3 list-disc list-inside bg-red-300 text-sm text-red-700 p-4 alert alert-error rounded-md">
             {{ session('error') }}
         </div>
     @endif
@@ -109,7 +109,6 @@
                     </div>
                 </div>
             </div>
-
     @empty
 
         <p class=" text-gray-700  text-center mt-5"> Aucun article créé </p>

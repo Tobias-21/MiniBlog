@@ -15,8 +15,6 @@
     @endif
 
      @forelse($articles as $article)
-
-       
             <div class=" px-9 py-4 shadow-md my-7 ">
                 <div class=" mb-3">
                 
@@ -32,7 +30,7 @@
 
                 <div class=" flex justify-end text-blue-600 space-x-3 ">
                     <div class=" flex space-x-2">
-                        
+                        <a href=" {{ route('articles.show', ['slug' => $article->slug]) }} " class=" bg-yellow-500 py-1 px-2 rounded-lg text-white"> Voir</a>
                         @if (auth()->check() && auth()->user()->role == 'user')
                             <button class=" bg-blue-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('articles.edit', $article) }} "> Modifier </a></button>
 
@@ -52,10 +50,8 @@
                     </div>
                 </div>
             </div>        
-
     @empty
          <p class=" text-gray-700  text-center mt-5"> Aucun article en attente </p>
     @endforelse
-
 
 </x-layouts.app>

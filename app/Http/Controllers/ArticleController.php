@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\Article;
 use App\Models\Categori;
 use App\Models\User;
+use App\Events\ArticlePublished;
 
 class ArticleController extends Controller
 {
@@ -72,8 +73,6 @@ class ArticleController extends Controller
         if(Auth::user()->id !== $article->user_id) {
             return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cet article.');
         }
-
-        
         return view('articles.edit', compact('article'));
     }
 
@@ -129,6 +128,9 @@ class ArticleController extends Controller
             $article = Article::where('slug', $slug)->firstOrFail();
             $article->status = 'validé';
             $article->save();
+
+            ArticlePublished::dispatch($article);
+
             return redirect()->route('articles.en_attente')->with('success', 'Article validé avec succès.');
         }
 
@@ -137,13 +139,19 @@ class ArticleController extends Controller
 
     public function destroy(Article $article) : RedirectResponse {
 
-        if(Auth::user()->id !== $article->user_id) {
+        if(Auth::user()->id !== $article->user_id && Auth::user()->role !== 'admin') {
             return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cet article.');
         }
 
+        if(auth::user()->role === 'admin') {
+            
+            $article->delete();
+            
+            return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
+        }
         $article->delete();
 
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
     }
     
 }

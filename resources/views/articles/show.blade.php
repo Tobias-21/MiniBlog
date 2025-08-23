@@ -22,9 +22,9 @@
         <div class="my-5">
         <img src="{{ asset('storage/' . $article->photo) }}" alt="Photo de l'article" class=" w-2xs h-72 object-cover rounded-lg shadow-md">
         </div>
-        <h1 class=" text-2xl font-bold text-indigo-800 mt-5 mb-1"> {{ $article->title }}</h1>
-        <p class="text-gray-700">{{ $article->content }}</p>
-        <p class="text-gray-700"> Catégorie : {{ $article->categori->name }}</p>
+        <h1 class=" text-2xl font-bold text-indigo-800 my-5 mb-1"> {{ $article->title }}</h1>
+        <p class="text-gray-700 my-4">{!! $article->content !!}</p>
+        <p class="text-gray-700 mt-3"> Catégorie : {{ $article->categori->name }}</p>
     </div>
 
     <div>
@@ -75,7 +75,7 @@
             <div class=" p-9 shadow-md rounded-2xl">
                 <h3 class=" font-bold  mb-1 text-indigo-800"> {{ $comment->name }}</h3>
 
-                <p class=" text-gray-700"> {{ $comment->comment }} </p>
+                <p class=" text-gray-700"> {!! $comment->comment !!} </p>
 
                 <p class=" text-gray-500 font-mono text-sm mt-2"> Posté le {{ $comment->created_at->format('d/m/Y H:i') }}  </p>
                 @if (auth()->check())
@@ -87,7 +87,7 @@
                         <h4 class="text-sm font-semibold text-gray-600">Réponses :</h4>
                         @foreach ($comment->replies as $reply)
                             <div class=" my-2 p-4 rounded-md shadow-sm">
-                                <p class="text-gray-700 mb-1.5">{{ $reply->reply }}</p>
+                                <p class="text-gray-700 mb-1.5">{!! $reply->reply !!}</p>
                                 <p class="text-xs text-gray-500 font-mono mt-1">Répondu par {{ $reply->user->name }} le {{ $reply->created_at->format('d/m/Y H:i') }}</p>
                             </div>
                         @endforeach
@@ -99,7 +99,6 @@
                         @csrf
                         <input type="hidden" name="article_id" value="{{ $article->id }}">
                         <textarea name="reply" id="reply" placeholder="Écrire une réponse..." class=" w-full px-3 py-2 border rounded-md">{{ old('reply') }}</textarea>
-                       
 
                         <div class="flex justify-end mt-2">
                             <button class=" bg-amber-600 py-1 px-4 rounded hover:bg-amber-500" >Envoyer</button>
@@ -116,7 +115,7 @@
     </div>
     
     
-    @if (auth()->check() && auth()->user()->id !== $article->user_id)
+    @if (auth()->check() && auth()->user()->id !== $article->user_id && auth()->user()->role === 'user' )
         
     <div class="mt-15">
         <h2 class="text-xl font-semibold text-pink-500 text-center">Ajouter un commentaire</h2>
@@ -127,7 +126,6 @@
         <input type="hidden" name="article_id" value="{{ $article->id }}">
 
         <div class="mb-4">
-            
             <textarea name="comment" id="comment" class="w-full px-3 py-2 border rounded-md" placeholder="Ecrire un commentaire" required>{{ old('comment') }}</textarea>
             <x-error field="comment" />
         </div>

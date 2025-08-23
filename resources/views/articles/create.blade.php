@@ -26,7 +26,7 @@
 
         <div class=" my-7">
             <x-label for="content" label="Contenu de l'article" />
-            <textarea type="text" name="content" id="content" class="w-full px-4 py-2 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('content') }}" required> </textarea>
+            <textarea type="text" name="content" id="myTexterea" class="w-full px-4 py-2 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('content') }}" required> </textarea>
            <x-error field="content" />
         </div>
 

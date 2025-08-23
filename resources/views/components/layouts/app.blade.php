@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{$titre}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script src="https://cdn.tiny.cloud/1/cixo5jpt20prdy762p1g95716632exrs60xvkx5pth9c310b/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -18,6 +19,19 @@
                 <li><a href="{{ route('articles.create') }}" class="text-white hover:underline">Créer un article</a></li>
                 <li> <a href="{{ route('articles.favoris') }}" class="text-white hover:underline">Mes Favoris</a> </li>
                 <li><a href="{{ route('articles.en_attente') }}" class="text-white hover:underline">Articles en attente</a></li>
+                <li>
+                    @if (auth()->user() && auth()->user()->role === 'user')
+                       
+                    <form action="{{ route('user.subscribe') }}" method="POST" class="inline">
+                        @csrf
+                        @if(auth()->user()->status === 'abonné')
+                            <button type="submit" class=" bg-amber-50 text-pink-500 px-2 py-1 rounded-2xl font-bold"> <i class="bi bi-bell-fill"></i> Se désabonné</button>
+                        @else
+                            <button type="submit" class=" bg-amber-50 text-pink-500 px-2 py-1 rounded-2xl font-bold"> <i class="bi bi-bell"></i> S'abonner</button>
+                        @endif
+                    </form> 
+                    @endif
+                </li>
                
                 @endauth
                 

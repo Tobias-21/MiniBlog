@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['email_verified_at', 'remember_token']);
-            $table->string('role')->default('user'); // Adding a new column for user roles
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->string('status')->nullable(); // Adding a new column for user roles
         });
     }
 

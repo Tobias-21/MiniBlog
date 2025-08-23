@@ -34,11 +34,29 @@ class UserController extends Controller
         if ($validator->fails()){
             return back()->withErrors($validator)->withInput();
         }
-
         User::Create($validator->validated());
         
          return redirect()->route('login')->with('success', 'Vos informations sont enregistrées avec succès.');
 
+    }
+
+    public function subscribe(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        if ($user && $user->status !== 'abonné') {
+           $user->status = 'abonné';
+           $user->save();
+            $request->session()->flash('success', 'Vous êtes abonné aux notifications !');
+            
+        } elseif ($user && $user->status === 'abonné') {
+            $user->status = 'non abonné';
+            $user->save();
+            $request->session()->flash('success', "Vous êtes désabonné aux notifications");
+        }else {
+            $request->session()->flash('error', "Vous devez être connecté pour vous abonner.");
+        }
+
+        return redirect()->back();
     }
 
 }
