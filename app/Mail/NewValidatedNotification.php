@@ -10,18 +10,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewRejettedNotification extends Mailable
+class NewValidatedNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
+
     public $article;
+    
     public function __construct(Article $article)
     {
         $this->article = $article;
     }
+    
 
     /**
      * Get the message envelope.
@@ -29,7 +32,7 @@ class NewRejettedNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Articles Rejetté',
+            subject: 'Article validé',
         );
     }
 
@@ -39,8 +42,7 @@ class NewRejettedNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'articles.mail_rejetted',
-            
+            view: 'articles.mail_validate',
         );
     }
 

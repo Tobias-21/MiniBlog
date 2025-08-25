@@ -11,6 +11,7 @@ use App\Models\Article;
 use App\Models\Categori;
 use App\Models\User;
 use App\Events\ArticlePublished;
+use App\Events\ArticleRejetted;
 
 class ArticleController extends Controller
 {
@@ -63,8 +64,16 @@ class ArticleController extends Controller
         $article->user_id = Auth::id();
         $article->categori_id = $request->input('categorie_id');
         $article->slug = Str::slug($request->input('title'),'_');
+
+        if(Auth::user()->role == 'admin'){
+            $article->status = 'validé';
+        }
         $article->save();
         
+        if(Auth::user()->role == 'admin'){
+            return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
+        }
+
         return redirect()->route('articles.en_attente')->with('success', 'Article créé avec succès.');
     }
 
@@ -111,15 +120,18 @@ class ArticleController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function enAttente() : View {
+    public function enAttente() {
         
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if(Auth::check() && Auth::user()->role == 'admin') {
             $articles = Article::where('status', 'en attente')->get();
-        } elseif(Auth::check() && Auth::user()->role == 'user') {
+           
+        }elseif(Auth::check() && Auth::user()->role == 'user') {
             $articles = Article::where('status', 'en attente')->where('user_id', auth::id())->get();
-        }        
+           
+        }   
         
-        return view('articles.en_attentes', compact('articles'));
+         return view('articles.en_attentes', compact('articles'));
+       
     }
 
     public function validateArticle(string $slug) : RedirectResponse {
@@ -143,14 +155,15 @@ class ArticleController extends Controller
             return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cet article.');
         }
 
-        if(auth::user()->role === 'admin') {
-            
+        if(auth::user()->role === 'admin' && $article->status === 'en attente'){ 
+            $info_article = $article;
             $article->delete();
+            ArticleRejetted::dispatch($info_article);
             
             return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
         }
-        $article->delete();
 
+        $article->delete();
         return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
     }
     

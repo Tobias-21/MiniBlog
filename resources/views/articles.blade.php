@@ -30,7 +30,8 @@
             </form>
         </div>
 
-        <div>
+
+        <div class=" flex justify-between items-center mb-6">
             <select onchange="window.location.href = this.value" class=" p-4 shadow text-gray-600 focus:outline-0">
                 <option value="{{ route('articles.index') }}" @selected(empty($slug))> Toutes les categories</option>
                 @foreach ($categories as $categorie)
@@ -38,7 +39,14 @@
                 @endforeach
                 
             </select>
+
+            @if (Auth::check() && Auth::user() && Auth::user()->role === 'admin')
+            <div>
+                <a href="{{ route('articles.en_attente') }}" class=" bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600">Ajouter une catégorie</a>
+            </div>
+        @endif
         </div>
+        
     </x-slot:search>
 
     @php
