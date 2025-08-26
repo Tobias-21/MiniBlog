@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['email_verified_at', 'remember_token']);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('status')->nullable(); // Adding a new column for user roles
         });

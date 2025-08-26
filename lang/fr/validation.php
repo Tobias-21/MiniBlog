@@ -208,7 +208,7 @@ return [
         'is_subscribed'            => 'est abonné',
         'is_visible'               => 'est visible',
         'is_winner'                => 'est gagnant',
-        'items'                    => 'articles',
+        'items'                    => 'publications',
         'key'                      => 'clé',
         'last_name'                => 'nom de famille',
         'lesson'                   => 'leçon',

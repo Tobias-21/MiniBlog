@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\ArticleRejetted;
+use App\Events\PublicationRejetted;
 use App\Mail\NewRejettedNotification;
-use App\Models\Article;
+use App\Models\Publication;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
@@ -22,11 +22,11 @@ class SendRejettedMessage
     /**
      * Handle the event.
      */
-    public function handle(ArticleRejetted $event): void
+    public function handle(PublicationRejetted $event): void
     {
-        $article = $event->article;
+        $publication = $event->publication;
 
-        Mail::to($article->user->email)->send(new NewRejettedNotification($article));
+        Mail::to($publication->user->email)->send(new NewRejettedNotification($publication));
         
     }
 }

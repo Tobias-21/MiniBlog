@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
-use App\Mail\NewArticleNotification;
-use App\Models\Article;
+use App\Mail\NewPublicationNotification;
+use App\Models\Publication;
 use Illuminate\Support\Facades\Mail;
 
 Route::middleware("guest")->group(function () {
@@ -16,28 +16,33 @@ Route::middleware("guest")->group(function () {
     Route::post('/register',[UserController::class,'store'])->name('users.register');
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'doLogin'])->name('auth.doLogin');
+    Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('forgot_password.form');
+    Route::post('/forgot-password', [AuthController::class, 'sendnewPassword'])->name('forgot_password');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('reset_password.form');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset_password');
     
 });
 
-Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/', [PublicationController::class, 'index'])->name('publications.index');
 
 
 Route::middleware("auth")->group(function () {
-    Route::resource('articles', ArticleController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('publications', PublicationController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('comments', CommentController::class);
     Route::resource('users', UserController::class);
     Route::delete('/login', [AuthController::class, 'logout'])->name('auth.logout');
     Route::post('/',[FavoriController::class,'toggleFavorite'])->name('favoris');
-    Route::get('/articles/favoris',[FavoriController::class,'favoris'])->name('articles.favoris');
+    Route::get('/publications/favoris',[FavoriController::class,'favoris'])->name('publications.favoris');
     Route::post('/ratings', [RatingController::class, 'ratings'])->name('ratings');
     Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
-    Route::get('/articles/en_attentes', [ArticleController::class, 'enAttente'])->name('articles.en_attente');
-    Route::post('/articles/{slug}/validate', [ArticleController::class, 'validateArticle'])->name('articles.validate');
+    Route::get('/publications/en_attentes', [PublicationController::class, 'enAttente'])->name('publications.en_attente');
+    Route::post('/publications/{slug}/validate', [PublicationController::class, 'validatePublication'])->name('publications.validate');
     Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
+    Route::get('/mes_publications', [PublicationController::class, 'mes_Publication'])->name('mes_publications');
 });
 
-Route::get('categorie/{slug}/articles',[ArticleController::class,'index'])->name('articles.categorie');
-Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('categorie/{slug}/publications',[PublicationController::class,'index'])->name('publications.categorie');
+Route::get('/publications/{slug}', [PublicationController::class, 'show'])->name('publications.show');
 
 
 

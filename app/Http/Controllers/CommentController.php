@@ -19,13 +19,13 @@ class CommentController extends Controller
     {
         // Logic to store a new comment
         $request->validate([
-            'article_id' => 'required',
+            'publication_id' => 'required',
             'comment' => 'required|string|min:10',
         ]);
 
         // Logic to save the comment in the database
         $comment = new Comment();
-        $comment->article_id = $request->input('article_id');
+        $comment->publication_id = $request->input('publication_id');
         $comment->name = Auth::user()->name; // Assuming the user is authenticated
         $comment->comment = $request->input('comment');
         $comment->save();

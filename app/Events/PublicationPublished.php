@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Article;
+use App\Models\Publication;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ArticlePublished
+class PublicationPublished
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,11 +19,11 @@ class ArticlePublished
      * Create a new event instance.
      */
 
-    public $article;
+    public $publication;
 
-    public function __construct(Article $article)
+    public function __construct(Publication $publication)
     {
-        $this->article = $article;
+        $this->publication = $publication;
     }
     
     

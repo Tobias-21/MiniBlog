@@ -14,37 +14,37 @@ class FavoriController extends Controller
     public function toggleFavorite(Request $request)
     {
         $request->validate([
-            'article_id' => 'required|exists:articles,id',
+            'publication_id' => 'required|exists:publications,id',
         ]);
 
-        $articleId = $request->input('article_id');
+        $publicationId = $request->input('publication_id');
         $userId = Auth::id();
 
         if (!$userId) {
             return redirect()->route('login')->with('error', 'Connectez-vous pour ajouter un favori.');
         }
-        // Check if the article is already favorited by the user
-        $favori = Favori::where('user_id', $userId)->where('article_id', $articleId)->first();
+        // Check if the publication is already favorited by the user
+        $favori = Favori::where('user_id', $userId)->where('publication_id', $publicationId)->first();
 
         if ($favori) {
             // If it exists, delete it (unfavorite)
             $favori->delete();
-            return redirect()->route('articles.index')->with('Favori_status',false);
+            return redirect()->route('publications.index')->with('Favori_status',false);
         } else {
             // If it does not exist, create it (favorite)
             Favori::create([
                 'user_id' => $userId,
-                'article_id' => $articleId,
+                'publication_id' => $publicationId,
                 
             ]);
-            return redirect()->route('articles.index')->with('Favori_status', true);
+            return redirect()->route('publications.index')->with('Favori_status', true);
         }
     }
 
     public function favoris(Request $request) {
 
         $searchs = $request->input('searchs');
-        $articles = Auth::user()
+        $publications = Auth::user()
         ->favoris()
         ->withCount('comments')
         ->when($searchs, function ($query) use ($searchs) {
@@ -55,6 +55,6 @@ class FavoriController extends Controller
                   });
         })->latest()->paginate(5);
 
-        return view('articles.favoris',compact('articles','searchs'));
+        return view('publications.favoris',compact('publications','searchs'));
     }
 }

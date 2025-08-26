@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Article;
+use App\Models\Publication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,10 +17,10 @@ class NewRejettedNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    public $article;
-    public function __construct(Article $article)
+    public $publication;
+    public function __construct(Publication $publication)
     {
-        $this->article = $article;
+        $this->publication = $publication;
     }
 
     /**
@@ -29,7 +29,7 @@ class NewRejettedNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Articles Rejetté',
+            subject: 'Publications Rejetté',
         );
     }
 
@@ -39,7 +39,7 @@ class NewRejettedNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'articles.mail_rejetted',
+            view: 'publications.mail_rejetted',
             
         );
     }

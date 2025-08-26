@@ -8,7 +8,7 @@ class Favori extends Model
 {
     protected $fillable = [
         'user_id',
-        'article_id',
+        'publication_id',
         
     ];
     
@@ -16,7 +16,7 @@ class Favori extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function article() {
-        return $this->belongsTo(Article::class);
+    public function publication() {
+        return $this->belongsTo(Publication::class);
     }
 }

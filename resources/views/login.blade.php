@@ -36,6 +36,14 @@
             <x-error field="password" class="text-red-500 text-sm mt-1" />
         </div>
 
+        <div class="flex justify-between items-center mb-2">
+            <p>
+                <input type="checkbox" name="remember" id="remember" class="mr-1">
+                <label for="remember" class="text-sm text-gray-600"> Se souvenir de moi </label>
+            </p>
+            <a href="{{ route('forgot_password') }}" class=" text-gray-700 text-sm text-end my-3"> Mot de passe oublié </a>
+        </div>
+
         <button type="submit" class="w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">Se connecter</button>
 
         <p class=" text-center font-medium pt-5 text-gray-600"> Vous n'avez pas de compte? <a href=" {{ route('register') }} " class=" font-medium hover:underline text-blue-600 "> S'inscrire </a> </p>

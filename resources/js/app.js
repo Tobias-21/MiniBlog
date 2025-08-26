@@ -36,3 +36,13 @@ document.querySelectorAll('.reponse').forEach( (btn) => {
   document.querySelector('form').addEventListener('submit', function(e) {
     tinymce.triggerSave(); // met à jour tous les textarea TinyMCE
 });
+
+document.getElementById('dropButtonProfile')?.addEventListener('click', function() {
+    const menu = document.getElementById('dropMenuProfile');
+    menu.classList.toggle('hidden');
+});
+
+document.getElementById('dropButton')?.addEventListener('click', function() {
+    const menu = document.getElementById('dropMenu');
+    menu.classList.toggle('hidden');
+});

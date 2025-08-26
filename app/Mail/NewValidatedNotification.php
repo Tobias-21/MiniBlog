@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Article;
+use App\Models\Publication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -18,11 +18,11 @@ class NewValidatedNotification extends Mailable
      * Create a new message instance.
      */
 
-    public $article;
+    public $publication;
     
-    public function __construct(Article $article)
+    public function __construct(Publication $publication)
     {
-        $this->article = $article;
+        $this->publication = $publication;
     }
     
 
@@ -32,7 +32,7 @@ class NewValidatedNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Article validé',
+            subject: 'Publication validé',
         );
     }
 
@@ -42,7 +42,7 @@ class NewValidatedNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'articles.mail_validate',
+            view: 'publications.mail_validate',
         );
     }
 

@@ -48,18 +48,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function articles()
+    public function publications()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Publication::class);
     }
 
     public function favoris() {
-        return $this->belongsToMany(Article::class,'favoris','user_id','article_id')->withTimestamps();
+        return $this->belongsToMany(Publication::class,'favoris','user_id','publication_id')->withTimestamps();
     }
 
     public function ratings(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class, 'ratings', 'user_id', 'article_id')
+        return $this->belongsToMany(Publication::class, 'ratings', 'user_id', 'publication_id')
             ->withPivot('rating')
             ->withTimestamps();
     }

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Article;
+use App\Models\Publication;
 use Dotenv\Util\Str;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,17 +13,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use LaravelLang\Lang\Plugins\Spark\Stripe;
 
-class ArticleRejetted
+class PublicationRejetted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $article;
+    public $publication;
     /**
      * Create a new event instance.
      */
-    public function __construct(Article $article)
+    public function __construct(Publication $publication)
     {
-        $this->article = $article;
+        $this->publication = $publication;
         
     }
    

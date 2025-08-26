@@ -8,7 +8,7 @@ class Rating extends Model
 {
     public $fillable = [
         'user_id',
-        'article_id',
+        'publication_id',
         'rating',
     ];
 
@@ -17,8 +17,8 @@ class Rating extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function article()
+    public function publication()
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(Publication::class);
     }
 }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
+        Schema::table('publications', function (Blueprint $table) {
             $table->string('photo')->after('content'); // Adding a nullable 'photo' column after 'content'
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
+        Schema::table('publications', function (Blueprint $table) {
             $table->dropColumn('photo'); // Dropping the 'photo' column
         });
     }

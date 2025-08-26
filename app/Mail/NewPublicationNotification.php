@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Article;
+use App\Models\Publication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,17 +10,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewArticleNotification extends Mailable
+class NewPublicationNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $article;
+    public $publication;
     /**
      * Create a new message instance.
      */
-    public function __construct(Article $article)
+    public function __construct(Publication $publication)
     {
-        $this->article = $article;
+        $this->publication = $publication;
     }
     
 
@@ -30,7 +30,7 @@ class NewArticleNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouvel Article Publié',
+            subject: 'Nouvel Publication Publié',
         );
     }
 
@@ -40,7 +40,7 @@ class NewArticleNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'articles.mail_notification',
+            view: 'publications.mail_notification',
         );
     }
 

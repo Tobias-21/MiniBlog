@@ -14,39 +14,39 @@ Cet exercice vous permet d’approfondir vos connaissances de Laravel, notamment
 ## 🧠 Scénario
 
 Vous devez développer une petite application appelée **MiniBlog**, permettant :
-- de publier des articles,
-- d’afficher ces articles,
-- de permettre à des visiteurs de laisser des commentaires sous chaque article.
+- de publier des publications,
+- d’afficher ces publications,
+- de permettre à des visiteurs de laisser des commentaires sous chaque publication.
 
 ---
 
 ## 🔧 Fonctionnalités à implémenter
 
-### 1. Gestion des articles
+### 1. Gestion des publications
 
-#### ➕ Création d’un article
-- Page : `/articles/create`
+#### ➕ Création d’un publication
+- Page : `/publications/create`
 - Champs :
   - Titre (min 5 caractères)
   - Contenu
 - Validation obligatoire sur les champs
 
-#### 📄 Liste des articles
-- Page : `/articles`
-- Affiche la liste de tous les articles, du plus récent au plus ancien
+#### 📄 Liste des publications
+- Page : `/publications`
+- Affiche la liste de tous les publications, du plus récent au plus ancien
 
-#### 🔍 Détail d’un article
-- Page : `/articles/{id}`
+#### 🔍 Détail d’un publication
+- Page : `/publications/{id}`
 - Affiche :
-  - le titre et le contenu de l’article
+  - le titre et le contenu de l’publication
   - tous les commentaires associés
   - un formulaire pour ajouter un commentaire
 
-#### ✏️ Édition d’un article
-- Page : `/articles/{id}/edit`
+#### ✏️ Édition d’un publication
+- Page : `/publications/{id}/edit`
 - Pré-remplit les champs pour édition
 
-#### ❌ Suppression d’un article
+#### ❌ Suppression d’un publication
 - Fonctionnalité de suppression avec redirection
 
 ---
@@ -54,17 +54,17 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 ### 2. Commentaires
 
 #### ➕ Ajout d’un commentaire
-- Depuis la page d’un article
+- Depuis la page d’un publication
 - Champs :
   - Nom
   - Contenu du commentaire (min 10 caractères)
-- Les commentaires sont affichés sous l’article
+- Les commentaires sont affichés sous l’publication
 
 ---
 
 ## 🗃️ Structure des tables
 
-### Table `articles`
+### Table `publications`
 | Champ      | Type      | Contraintes            |
 |------------|-----------|------------------------|
 | id         | integer   | Auto-incrémenté        |
@@ -76,7 +76,7 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 | Champ      | Type      | Contraintes                 |
 |------------|-----------|-----------------------------|
 | id         | integer   | Auto-incrémenté             |
-| article_id | integer   | Foreign key -> articles.id  |
+| publication_id | integer   | Foreign key -> publications.id  |
 | name       | string    | required                    |
 | comment    | text      | min:10, required            |
 | timestamps |           | created_at, updated_at      |
@@ -85,7 +85,7 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 
 ## 🔁 Relations Eloquent
 
-- `Article` :
+- `Publication` :
   ```php
   public function comments()
   {
@@ -95,9 +95,9 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 
 - `Comment` :
   ```php
-  public function article()
+  public function publication()
   {
-      return $this->belongsTo(Article::class);
+      return $this->belongsTo(Publication::class);
   }
   ```
 
@@ -105,9 +105,9 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 
 ## 🗂️ Organisation recommandée
 
-- **Modèles** : `Article`, `Comment`
-- **Contrôleurs** : `ArticleController`, `CommentController`
-- **Vues** (dans `resources/views/articles`) :
+- **Modèles** : `Publication`, `Comment`
+- **Contrôleurs** : `PublicationController`, `CommentController`
+- **Vues** (dans `resources/views/publications`) :
   - `index.blade.php`
   - `create.blade.php`
   - `edit.blade.php`
@@ -126,7 +126,7 @@ Vous devez développer une petite application appelée **MiniBlog**, permettant 
 ## 🎁 Bonus
 
 - Ajouter une pagination (`paginate(5)`)
-- Ajouter une barre de recherche d’articles
+- Ajouter une barre de recherche d’publications
 - Styliser les formulaires et les listes avec un framework CSS
 
 ---

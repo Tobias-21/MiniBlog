@@ -38,14 +38,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Categori::create([
-            'name' => 'Culture',
+            'name' => 'Habillement',
             'slug' => Str::slug('culture','_')
         ]);
         
         User::create([
-            'name' => 'Admin',
+            'name' => 'Tobi',
             'email' => 'miniblog221@gmail.com',
-            'password' => bcrypt('admin21'),
+            'password' => bcrypt('admin21@'),
             'role' => 'admin', // Assigning the admin role
         ]);
 

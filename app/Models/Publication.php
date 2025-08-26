@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Publication extends Model
 {
     public function comments() {
         return $this->hasMany(Comment::class);
@@ -15,11 +15,11 @@ class Article extends Model
     }
 
     public function favoris() {
-        return $this->belongsToMany(User::class,'favoris','user_id','article_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'favoris','user_id','publication_id')->withTimestamps();
     }
 
     public function ratings() {
-        return $this->hasMany(Rating::class, 'article_id');
+        return $this->hasMany(Rating::class, 'publication_id');
             
     }
 

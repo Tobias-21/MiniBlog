@@ -13,16 +13,16 @@ class RatingController extends Controller
     {
         
         $request->validate([
-            'article_id' => 'required|exists:articles,id',
+            'publication_id' => 'required|exists:publications,id',
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
-        $articleId = $request->input('article_id');
+        $publicationId = $request->input('publication_id');
         $userId = Auth::id();
 
         
-        // Check if the user has already rated the article
-        $rating = Rating::where('user_id', $userId)->where('article_id', $articleId)->first();
+        // Check if the user has already rated the publication
+        $rating = Rating::where('user_id', $userId)->where('publication_id', $publicationId)->first();
 
         if ($rating) {
             // If it exists, update the rating
@@ -31,12 +31,12 @@ class RatingController extends Controller
             // If it does not exist, create a new rating
             Rating::create([
                 'user_id' => $userId,
-                'article_id' => $articleId,
+                'publication_id' => $publicationId,
                 'rating' => $request->input('rating'),
             ]);
         }
 
-        return \redirect()->route('articles.index');
+        return \redirect()->route('publications.index');
     }
 
     

@@ -11,7 +11,7 @@ class Categori extends Model
         'slug',
     ];
     
-    public function articles() {
-        return $this->hasMany(Article::class);
+    public function publications() {
+        return $this->hasMany(Publication::class);
     }
 }

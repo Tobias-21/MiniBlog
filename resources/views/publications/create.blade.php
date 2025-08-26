@@ -1,11 +1,11 @@
 <x-layouts.app>
 
     <x-slot:titre>
-        Création d'articles
+        Création d'publications
     </x-slot:titre>
 
     <x-slot:title>
-        Créer un article
+        Créer une publication
     </x-slot:title>
 
     @if (session()->has('success'))
@@ -15,23 +15,23 @@
         </div>
     @endif
 
-    <form action="{{ route('articles.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('publications.store') }}" method="post" enctype="multipart/form-data" class=" p-10 rounded-lg shadow-md">
         @csrf
         
         <div class=" my-7">
-            <x-label for="title" label="Titre de l'article" />
+            <x-label for="title" label="Titre de la publication" />
             <input type="text" name="title" id="title" class=" w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('title') }}" required> 
             <x-error field="title" />
         </div>
 
         <div class=" my-7">
-            <x-label for="content" label="Contenu de l'article" />
+            <x-label for="content" label="Contenu de la publication" />
             <textarea type="text" name="content" id="myTexterea" class="w-full px-4 py-2 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" value=" {{ old('content') }}" required> </textarea>
            <x-error field="content" />
         </div>
 
         <div class=" my-7">
-            <x-label for="categorie_id" label="Categorie de l'article" />
+            <x-label for="categorie_id" label="Categorie de la publication" />
             <select name="categorie_id" class=" w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0 ">
                 @foreach ($categories as $categorie)
                     <option value="{{ $categorie->id }}"> {{ $categorie->name }} </option>
@@ -40,14 +40,14 @@
         </div>
 
         <div class="my-7">
-            <x-label for="photo" label="Photo de l'article" />
+            <x-label for="photo" label="Photo de la publication" />
             <input type="file" name="photo" id="photo" class="w-full px-4 py-3 border-1 border-pink-400 rounded-3xl text-gray-700 focus:outline-0" required>
             <x-error field="photo" />
         </div>
 
         <div class="flex justify-end">
             <button type="submit" class= " bg-amber-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Créer l'article </button>
+            Créer l'publication </button>
         </div>
         
     </form>

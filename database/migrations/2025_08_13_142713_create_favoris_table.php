@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('favoris', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('article_id')->constrained()->onDelete('cascade');
-            $table->unique(['user_id', 'article_id'], 'user_article_unique'); // Ensure a user can favorite an article only once
+            $table->foreignId('publication_id')->constrained()->onDelete('cascade');
+            $table->unique(['user_id', 'publication_id'], 'user_publication_unique'); // Ensure a user can favorite an publication only once
             $table->timestamps();
         });
     }
