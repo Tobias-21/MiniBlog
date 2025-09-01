@@ -17,7 +17,7 @@
     </x-slot:titre>
 
     <x-slot:title>
-        Liste des publications de {{ auth()->user()->name }}
+        Les publications de {{ auth()->user()->name }}
     </x-slot:title>
 
     <x-slot:search>
@@ -63,7 +63,7 @@
                     </span> 
                 </p>
 
-                <div class=" flex justify-end text-blue-600 space-x-3 ">
+                <div class=" flex justify-end text-blue-600 space-x-3 mt-3">
                     <div class=" flex space-x-2">
                     <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('publications.show', ['slug' => $publication->slug]) }} "> Voir</a></button> 
 

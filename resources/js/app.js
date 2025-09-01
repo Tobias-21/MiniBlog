@@ -1,22 +1,19 @@
 import './bootstrap';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 document.querySelectorAll('.reponse').forEach( (btn) => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
         const form = btn.closest('.p-9').querySelector('.form');
-        if (form.style.display === 'none') {
-            form.style.display = 'block';
-        } else {
-            form.style.display = 'none';
-        }
+        form.classList.toggle('hidden');
     });
 });
 
- tinymce.init({
+/* tinymce.init({
     selector: '#myTexterea, #comment, #reply',
     plugins: [
       
-      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists','image', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
       'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
     ],
     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
@@ -36,6 +33,24 @@ document.querySelectorAll('.reponse').forEach( (btn) => {
   document.querySelector('form').addEventListener('submit', function(e) {
     tinymce.triggerSave(); // met à jour tous les textarea TinyMCE
 });
+*/
+document.getElementById('myTexterea') && ClassicEditor
+    .create( document.querySelector( '#myTexterea' ))
+    .catch( error => {
+        console.error( error );
+    } );
+
+document.getElementById('comment') && ClassicEditor
+    .create( document.querySelector( '#comment' ) )
+    .catch( error => {
+        console.error( error );
+    } );
+
+document.getElementById('reply') && ClassicEditor
+    .create( document.querySelector( '#reply' ) )
+    .catch( error => {
+        console.error( error );
+    } );
 
 document.getElementById('dropButtonProfile')?.addEventListener('click', function() {
     const menu = document.getElementById('dropMenuProfile');
@@ -45,4 +60,16 @@ document.getElementById('dropButtonProfile')?.addEventListener('click', function
 document.getElementById('dropButton')?.addEventListener('click', function() {
     const menu = document.getElementById('dropMenu');
     menu.classList.toggle('hidden');
+});
+
+document.getElementById('modifierButton')?.addEventListener('click', function() {
+    const menu = document.getElementById('buttonProfile');
+    menu.classList.toggle('hidden');
+
+    const profile = document.getElementsByClassName('profile');
+
+    Array.from(profile).forEach(input => {
+        input.disabled = false;
+    })
+    
 });

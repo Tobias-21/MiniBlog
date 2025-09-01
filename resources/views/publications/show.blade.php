@@ -1,11 +1,11 @@
 <x-layouts.app>
 
     <x-slot:titre>
-        Voir l'publication
+        Voir la publication
     </x-slot:titre>
 
     <x-slot:title>
-        Informations sur l'publication
+        Informations sur la publication
     </x-slot:title>
 
     @if (session('success'))
@@ -79,7 +79,7 @@
 
                 <p class=" text-gray-500 font-mono text-sm mt-2"> Posté le {{ $comment->created_at->format('d/m/Y H:i') }}  </p>
                 @if (auth()->check())
-                <a href="#"  class="reponse font-medium flex justify-end text-indigo-800"> Répondre </a>
+                <a href="#"  class="reponse font-medium flex justify-end text-indigo-800 mt-3"> Répondre </a>
                 @endif
 
                  @if ($comment->replies->count() > 0)
@@ -94,7 +94,7 @@
                     </div>
                 @endif
                 
-                <div class="form" style=" margin-left: 20px; display:none;">
+                <div class="form hidden" style=" margin-left: 20px;">
                     <form action="{{ route('comments.reply', $comment->id) }}" method="POST" class="mt-3">
                         @csrf
                         <input type="hidden" name="publication_id" value="{{ $publication->id }}">
@@ -115,7 +115,7 @@
     </div>
     
     
-    @if (auth()->check() && auth()->user()->id !== $publication->user_id && auth()->user()->role === 'user' )
+    @if (auth()->check() && auth()->user()->id !== $publication->user_id && (auth()->user()->role === 'user' || auth()->user()->role === 'admin' && $publication->status === 'validé') )
         
     <div class="mt-15">
         <h2 class="text-xl font-semibold text-pink-500 text-center">Ajouter un commentaire</h2>
@@ -126,7 +126,7 @@
         <input type="hidden" name="publication_id" value="{{ $publication->id }}">
 
         <div class="mb-4">
-            <textarea name="comment" id="comment" class="w-full px-3 py-2 border rounded-md" placeholder="Ecrire un commentaire" required>{{ old('comment') }}</textarea>
+            <textarea name="comment" id="myTexterea" class="w-full px-3 py-2 border rounded-md" placeholder="Ecrire un commentaire" >{{ old('comment') }}</textarea>
             <x-error field="comment" />
         </div>
         <div class="flex justify-end">

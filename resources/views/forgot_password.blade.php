@@ -43,7 +43,6 @@
         </div>
 
         <button type="submit" class="w-full bg-amber-800 text-white py-2 px-4 rounded-md hover:bg-amber-900">Soumettre</button>
-
         
     </form>
 </body>

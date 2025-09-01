@@ -39,6 +39,12 @@ Route::middleware("auth")->group(function () {
     Route::post('/publications/{slug}/validate', [PublicationController::class, 'validatePublication'])->name('publications.validate');
     Route::post('/user/subscribe', [UserController::class, 'subscribe'])->name('user.subscribe');
     Route::get('/mes_publications', [PublicationController::class, 'mes_Publication'])->name('mes_publications');
+    Route::get('/categories',[PublicationController::class,'categories'])->name('categories');
+    Route::post('categories',[PublicationController::class,'storeCategorie'])->name('categories.store');
+    Route::delete('categories/{categorie}',[PublicationController::class,'destroyCategorie'])->name('category.destroy');
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('user.update');
+    
 });
 
 Route::get('categorie/{slug}/publications',[PublicationController::class,'index'])->name('publications.categorie');

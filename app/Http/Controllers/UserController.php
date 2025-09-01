@@ -8,6 +8,7 @@ use App\Models\User;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Publication;
 
 class UserController extends Controller
 {
@@ -57,6 +58,35 @@ class UserController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function profile(){
+    
+        $user = User::find(auth()->id());
+        $validé = $user->publications()->where('status','validé')->count();
+        $en_attente = $user->publications()->where('status','en attente')->count();
+        
+        return view ('profile',compact('user','validé','en_attente'));
+    }
+
+    public function updateProfile(Request $request): RedirectResponse{
+   
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id(),
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+        
+        $user->update($request->only('name', 'email'));
+
+        if ($request->filled('password')) {
+            $user->password = $request->input('password');
+            $user->save();
+        }
+
+        return redirect()->route('user.profile')->with('success', 'Profil mis à jour avec succès.');
     }
 
 }

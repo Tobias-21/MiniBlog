@@ -31,7 +31,7 @@
         </div>
 
 
-        <div class=" flex justify-between items-center mb-6">
+        <div class="flex justify-center md:justify-between items-center mb-6 flex-wrap  space-x-5">
             <select onchange="window.location.href = this.value" class=" p-4 shadow text-gray-600 focus:outline-0">
                 <option value="{{ route('publications.index') }}" @selected(empty($slug))> Toutes les categories</option>
                 @foreach ($categories as $categorie)
@@ -41,8 +41,8 @@
             </select>
 
             @if (Auth::check() && Auth::user() && Auth::user()->role === 'admin')
-            <div>
-                <a href="{{ route('publications.en_attente') }}" class=" bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600">Ajouter une catégorie</a>
+            <div class=" mt-7 md:mt-0">
+                <a href="{{ route('categories') }}" class=" bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600"> Ajouter une catégorie </a>
             </div>
         @endif
         </div>
@@ -100,7 +100,7 @@
                 
                 </span> </p>
 
-                <div class=" flex justify-end text-blue-600 space-x-3 ">
+                <div class=" flex justify-end text-blue-600 space-x-3 mt-3 ">
                     <div class=" flex space-x-2">
                     <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('publications.show', ['slug' => $publication->slug]) }} "> Voir</a></button> 
 

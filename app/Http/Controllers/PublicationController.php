@@ -178,4 +178,33 @@ class PublicationController extends Controller
         return redirect()->route('publications.index')->with('success', 'Publication supprimé avec succès.');
     }
     
+    public function categories() : View {
+        $categories = Categori::all();
+        return view('categories', compact('categories'));
+    }
+
+    public function storeCategorie(Request $request) : RedirectResponse {
+
+        $request->validate([
+            'name' => 'required|string|min:3|unique:categoris'
+        ]);
+
+        $categori = new Categori();
+        $categori->name = $request->input('name');
+        $categori->slug = Str::slug($request->input('name'),'_');
+        $categori->save();
+
+        return redirect()->route('categories')->with('success', 'Catégorie créé avec succès.');
+    }
+
+    public function destroyCategorie(Categori $categorie) : RedirectResponse {
+
+        if(Auth::user()->role !== 'admin') {
+            return redirect()->route('categories')->with('error', 'Vous n\'êtes pas autorisé à supprimer cette catégorie.');
+        }   
+        
+        $categorie->delete();
+
+        return redirect()->route('categories')->with('success', 'Catégorie supprimé avec succès.');
+    }
 }

@@ -36,7 +36,7 @@
             <x-error field="password" class="text-red-500 text-sm mt-1" />
         </div>
 
-        <div class="flex justify-between items-center mb-2">
+        <div class="sm:flex justify-between items-center mb-2 block">
             <p>
                 <input type="checkbox" name="remember" id="remember" class="mr-1">
                 <label for="remember" class="text-sm text-gray-600"> Se souvenir de moi </label>

@@ -38,7 +38,7 @@
         <p class=" text-gray-600 font-mono text-sm"> <span class=" pe-4">Créé le : {{ $publication->created_at->format('d/m/Y H:i') }}</span>  {{ $publication->comments_count }} commentaire(s) </p>
 
 
-        <div class=" flex justify-end text-blue-600 space-x-3 ">
+        <div class=" flex justify-end text-blue-600 space-x-3 mt-3">
             <div class=" flex space-x-2">
                <button class=" bg-green-500 py-1 px-2 rounded-lg text-white"> <a href=" {{ route('publications.show', ['slug' => $publication->slug]) }} "> Voir</a></button> 
 
@@ -52,10 +52,7 @@
                     <button type="submit" role="button" class=" bg-red-500 py-1 px-2 rounded-lg text-white "> Supprimer </button>
                 </form>
                 @endif
-            </div>
-            
-            
-            
+            </div>            
         </div>
     </div>
 

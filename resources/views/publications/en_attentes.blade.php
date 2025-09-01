@@ -28,7 +28,7 @@
                 <p class=" text-gray-700 font-mono text-sm"> Auteur : {{ $publication->user->name }} </p>
                 <p class=" text-gray-600 font-mono text-sm"> <span class=" pe-4">Créé le : {{ $publication->created_at->format('d/m/Y H:i') }}</p>
 
-                <div class=" flex justify-end text-blue-600 space-x-3 ">
+                <div class=" flex justify-end text-blue-600 space-x-3 mt-3 ">
                     <div class=" flex space-x-2">
                         <a href=" {{ route('publications.show', ['slug' => $publication->slug]) }} " class=" bg-yellow-500 py-1 px-2 rounded-lg text-white"> Voir</a>
                         @if (auth()->check() && auth()->user()->role == 'user')
