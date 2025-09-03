@@ -23,7 +23,7 @@ Route::middleware("guest")->group(function () {
     
 });
 
-Route::get('/', [PublicationController::class, 'index'])->name('publications.index');
+Route::get('/{slug?}', [PublicationController::class, 'index'])->name('publications.index');
 
 
 Route::middleware("auth")->group(function () {
@@ -44,10 +44,11 @@ Route::middleware("auth")->group(function () {
     Route::delete('categories/{categorie}',[PublicationController::class,'destroyCategorie'])->name('category.destroy');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('user.update');
+    Route::get('/publications/{name}',[PublicationController::class,'authorPub'])->name('author.publication');
     
 });
 
-Route::get('categorie/{slug}/publications',[PublicationController::class,'index'])->name('publications.categorie');
+Route::get('categoris/{slug}',[PublicationController::class,'index'])->name('publications.categorie');
 Route::get('/publications/{slug}', [PublicationController::class, 'show'])->name('publications.show');
 
 

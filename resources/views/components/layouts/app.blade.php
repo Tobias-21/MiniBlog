@@ -90,7 +90,6 @@
             {{ $search ?? '' }}
         </div>
 
-
         <h1 class="md:text-3xl text-2xl font-bold my-5 text-amber-500 text-center">{{ $title }}</h1>
         {{ $slot }}
 

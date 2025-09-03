@@ -29,18 +29,21 @@ class PublicationController extends Controller
         if($slug){
             $publications->whereHas('categori', function ($query) use ($slug) {
                 $query->where('slug',$slug);
+
             });
         }
         
-        if($search){
-            $publications->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('content', 'like', '%' . $search . '%')
-                  ->orWhereHas('user', function ($q) use ($search) {
-                      $q->where('name', 'like', '%' . $search . '%');
-                  });
+         if ($search !== '') {
+            $publications->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('content', 'like', "%{$search}%")
+                ->orWhereHas('user', function ($u) use ($search) {
+                    $u->where('name', 'like', "%{$search}%");
+                });
+            });
         }
 
-        $publications = $publications->latest()->paginate(5);
+        $publications = $publications->latest()->paginate(5)->appends(['search' => $search]);;
         $categories = Categori::all();
 
         return view('publications', compact('publications','search','categories','slug'));
@@ -49,7 +52,8 @@ class PublicationController extends Controller
     public function mes_Publication(Request $request) {
 
         $search = $request->input('search');
-        $publications = Publication::where('user_id', auth::id())->where('status', 'validé');
+        $user = $request->user();
+        $publications = Publication::where('user_id', $user->id)->where('status', 'validé');
 
         if($search){
             $publications->where('title', 'like', '%' . $search . '%')
@@ -63,7 +67,7 @@ class PublicationController extends Controller
     public function store(Request $request):RedirectResponse {
         // Validate and store the publication
         $request->validate([
-            'title' => 'required|string|min:5|unique:publications',
+            'title' => 'required|string|min:5',
             'content' => 'required|string',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048' // Validate photo if provided
 
@@ -105,7 +109,7 @@ class PublicationController extends Controller
         }
 
         $request->validate([
-            'title' => 'required|string|min:5|unique:publications',
+            'title' => 'required|string|min:5',
             'content' => 'required|string',
         ]);
 
@@ -142,7 +146,6 @@ class PublicationController extends Controller
            
         }   
          return view('publications.en_attentes', compact('publications'));
-       
     }
 
     public function validatePublication(string $slug) : RedirectResponse {
@@ -156,8 +159,28 @@ class PublicationController extends Controller
 
             return redirect()->route('publications.en_attente')->with('success', 'Publication validé avec succès.');
         }
-
         return redirect()->route('publications.index')->with('error', 'Vous n\'êtes pas autorisé à valider cet publication.');
+    }
+
+    public function authorPub(string $name, Request $request){
+
+        $search = $request->input('search');
+
+        $publications = Publication::whereHas('user',function($query) use ($name){
+            $query->where('name',$name);
+        })->where('status','validé');
+
+        if($search){
+            $publications->where('title', 'like', '%' . $search . '%')
+                ->orWhere('content', 'like', '%' . $search . '%');
+        }
+
+        $publications = $publications->latest()->paginate(5);
+        return view('author_publication', [
+            'publications' => $publications,
+            'search' => $search,
+            'name' => $name,
+        ]);
     }
 
     public function destroy(Publication $publication) : RedirectResponse {

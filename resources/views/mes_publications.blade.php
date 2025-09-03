@@ -17,7 +17,7 @@
     </x-slot:titre>
 
     <x-slot:title>
-        Les publications de {{ auth()->user()->name }}
+        Les publications de {{ $publications[0]->user->name }}
     </x-slot:title>
 
     <x-slot:search>
