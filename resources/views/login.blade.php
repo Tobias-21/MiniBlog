@@ -19,7 +19,13 @@
         <div class="bg-red-200 text-red-700 p-4 rounded-md my-3">
             {{ session('error') }}
         </div>
+    @elseif (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+
     @endif
+
 
     <form action="{{ route('auth.doLogin') }}" method="POST" class=" w-full md:w-2xl lg:w-1/3 mt-10 p-10  bg-yellow-50 rounded-lg shadow-md" >
         @csrf
@@ -41,7 +47,7 @@
                 <input type="checkbox" name="remember" id="remember" class="mr-1">
                 <label for="remember" class="text-sm text-gray-600"> Se souvenir de moi </label>
             </p>
-            <a href="{{ route('forgot_password') }}" class=" text-gray-700 text-sm text-end my-3"> Mot de passe oublié </a>
+            <a href="{{ route('password.request') }}" class=" text-gray-700 text-sm text-end my-3"> Mot de passe oublié </a>
         </div>
 
         <button type="submit" class="w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">Se connecter</button>

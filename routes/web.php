@@ -16,10 +16,10 @@ Route::middleware("guest")->group(function () {
     Route::post('/register',[UserController::class,'store'])->name('users.register');
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'doLogin'])->name('auth.doLogin');
-    Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('forgot_password.form');
-    Route::post('/forgot-password', [AuthController::class, 'sendnewPassword'])->name('forgot_password');
-    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('reset_password.form');
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset_password');
+    Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
     
 });
 
@@ -44,7 +44,7 @@ Route::middleware("auth")->group(function () {
     Route::delete('categories/{categorie}',[PublicationController::class,'destroyCategorie'])->name('category.destroy');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('user.update');
-    Route::get('/publications/{name}',[PublicationController::class,'authorPub'])->name('author.publication');
+    Route::get('/publications/auteur/{name}',[PublicationController::class,'authorPub'])->name('author.publication');
     
 });
 

@@ -17,6 +17,8 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^41.4.2",
         "@ckeditor/ckeditor5-font": "^46.0.2",
+        "jquery": "^3.7.1",
+        "summernote": "^0.9.1",
         "tinymce": "^8.0.2"
     }
 }

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{$titre}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <body class="bg-gray-100">
     <header class=" bg-pink-500 text-white py-4 text-sm md:px-10 px-4 ">
@@ -25,14 +26,14 @@
                         <li class=" mb-3"><a href="{{ route('publications.index') }}" class="text-white hover:text-pink-600">Toutes les Publications</a></li>
                         <li class=" mb-3"> <a href="{{ route('mes_publications') }}" class="text-white hover:text-pink-600">Mes Publications</a> </li>                    
                         <li class=" mb-3"><a href="{{ route('publications.create') }}" class="text-white hover:text-pink-600">Créer une publication</a></li>
-                        
-                        <li><a href="{{ route('publications.en_attente') }}" class="text-white hover:text-pink-600">Publications en attente</a></li>
+                        <li class=" mb-3"><a href="{{ route('publications.en_attente') }}" class="text-white hover:text-pink-600 ">Publications en attente</a></li>
+                        <li> <a href="{{ route('publications.favoris') }}" class="text-white hover:underline block md:hidden">Mes Favoris</a> </li>
                     </div>
                      
                 </ul>
                    
                     <ul>
-                        <li> <a href="{{ route('publications.favoris') }}" class="text-white hover:underline">Mes Favoris</a> </li>
+                        <li> <a href="{{ route('publications.favoris') }}" class="text-white hover:underline hidden md:block">Mes Favoris</a> </li>
                     </ul>
                     
                     @if (auth()->user() && auth()->user()->role === 'user')

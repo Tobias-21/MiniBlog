@@ -1,5 +1,7 @@
 import './bootstrap';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import 'summernote/dist/summernote-lite.css';
+import 'summernote/dist/summernote-lite.js';
+import $ from 'jquery';
 
 document.querySelectorAll('.reponse').forEach( (btn) => {
     btn.addEventListener('click', function(e) {
@@ -10,17 +12,13 @@ document.querySelectorAll('.reponse').forEach( (btn) => {
 });
 
 
-document.getElementById('myTexterea') && ClassicEditor
-    .create( document.querySelector( '#myTexterea' ))
-    .catch( error => {
-        console.error( error );
-    } );
+document.addEventListener('DOMContentLoaded', function () {
+    $('#myTexterea, #reply').summernote({
+        height: 150,
+        
+    });
+ });
 
-document.getElementById('reply') && ClassicEditor
-    .create( document.querySelector( '#reply' ) )
-    .catch( error => {
-        console.error( error );
-    } );
 
 document.getElementById('dropButtonProfile')?.addEventListener('click', function() {
     const menu = document.getElementById('dropMenuProfile');
