@@ -49,12 +49,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function sendPasswordResetNotification($token)  {
-        $delay = now()->addMinutes(60);
- 
-        $this->notify(new ResetPasswordNotification($token))->delay($delay);
-    }
-
 
     public function publications()
     {

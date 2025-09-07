@@ -7,10 +7,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Mail\SentResetLink;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\DB;
 
 
 class AuthController extends Controller
@@ -52,11 +55,20 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
         ]);
 
-        $status = Password::sendResetLink($request->only('email'));
+        $user = User::where('email', $request->email)->firstOrFail();
 
-        return $status === Password::ResetLinkSent
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
+        $token = Str::random(60);
+
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            ['token' => $token]
+        );
+
+        $url = url(env('FRONTEND_URL') . '/reset-password/' . $token . '?email=' . $user->email);
+
+        Mail::to($user->email)->send(new SentResetLink($user,$url));
+
+        return back()->with(['status' => 'Un lien de réinitialisation été envoyé à votre mail' ]);
     }
 
     public function showResetForm(string $token){
