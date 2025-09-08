@@ -61,7 +61,10 @@ class AuthController extends Controller
 
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $user->email],
-            ['token' => $token]
+            [   
+                'token' => Hash::make($token),
+                'created_at' => now()
+            ]
         );
 
         $url = url(env('FRONTEND_URL') . '/reset-password/' . $token . '?email=' . $user->email);

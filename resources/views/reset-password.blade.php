@@ -33,13 +33,13 @@
 
         <div class="mb-4">
             <label for="password" class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
-            <input type="password" name="password" id="password" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('email') }}" >
+            <input type="password" name="password" id="password" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('password') }}" >
             <x-error field="password" class="text-red-500 text-sm mt-1" />
         </div>
 
         <div class="mb-4">
             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('email') }}" >
+            <input type="password" name="password_confirmation" id="password_confirmation" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-0 p-2" value="{{ old('password_confirmation') }}" >
             <x-error field="password_confirmation" class="text-red-500 text-sm mt-1" />
         </div>
 
