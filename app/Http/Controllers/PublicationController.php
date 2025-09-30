@@ -77,10 +77,18 @@ class PublicationController extends Controller
         $publication = new Publication() ;
         $publication->title = $request->input('title');
         $publication->content = $request->input('content');
-        $publication->photo = $request->file('photo')->store('photos', 'public'); // Store photo if provided
         $publication->user_id = Auth::id();
         $publication->categori_id = $request->input('categorie_id');
         $publication->slug = Str::slug($request->input('title'),'_');
+
+        $file = $request->file('photo');
+        $filename = time().'_'.$file->getClientOriginalName();
+
+        // Déplace directement dans htdocs/photos
+        $file->move(dirname(dirname(dirname(public_path('photos')))) . '/storage', $filename);
+
+        // Sauvegarde le chemin relatif en DB
+        $publication->photo = $filename;
 
         if(Auth::user()->role == 'admin'){
             $publication->status = 'validé';
