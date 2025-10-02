@@ -21,9 +21,11 @@ class PublicationController extends Controller
         return view('publications.create',\compact('categories'));
     }
 
-    public function index(Request $request, $slug = null) : View {
+    public function index(Request $request,string $slug = null) : View {
 
-        $search = $request->input('search');        
+        $search = $request->input('search');  
+        //$slug = $request->input('slug'); 
+
         $publications = Publication::with(['favoris','ratings','user'])->withAvg('ratings','rating')->withCount('comments')->where('status', 'validé'); // Only show validated publications
 
         if($slug){
@@ -33,7 +35,7 @@ class PublicationController extends Controller
             });
         }
         
-         if ($search !== '') {
+        if ($search !== '') {
             $publications->where(function($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                 ->orWhere('content', 'like', "%{$search}%")
@@ -43,7 +45,7 @@ class PublicationController extends Controller
             });
         }
 
-        $publications = $publications->latest()->paginate(5)->appends(['search' => $search]);;
+        $publications = $publications->latest()->paginate(5)->appends(['search' => $search,'slug' => $slug]);;
         $categories = Categori::all();
 
         return view('publications', compact('publications','search','categories','slug'));

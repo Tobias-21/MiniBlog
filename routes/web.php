@@ -23,7 +23,7 @@ Route::middleware("guest")->group(function () {
     
 });
 
-Route::get('/{slug?}', [PublicationController::class, 'index'])->name('publications.index');
+Route::get('/', [PublicationController::class, 'index'])->name('publications.index');
 
 
 Route::middleware("auth")->group(function () {
