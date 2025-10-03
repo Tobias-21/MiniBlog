@@ -6,8 +6,7 @@
     <x-slot:search>
         <div class="flex justify-center mb-15">
             <form action="{{ route('publications.favoris') }}" method="GET" class="flex">
-                @csrf
-                @method('GET')
+                
                 <input type="text" name="searchs" value="{{ request('searchs') }}" placeholder="Rechercher un publication..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button type="submit" class="ml-2 bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600"> <i class="bi bi-search "></i></button>
             </form>

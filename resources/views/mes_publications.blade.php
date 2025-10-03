@@ -17,7 +17,7 @@
     </x-slot:titre>
 
     <x-slot:title>
-        Les publications de {{ $publications[0]->user->name }}
+        Les publications de {{ auth()->user()->name }}
     </x-slot:title>
 
     <x-slot:search>
@@ -82,9 +82,8 @@
             </div>
     @empty
 
-        <p class=" text-gray-700  text-center mt-5"> Aucune publication créée </p>
+        <p class=" text-gray-700  text-center mt-5"> Aucune publication valide </p>
 
-       
     @endforelse
 
     <div class=" mt-6">

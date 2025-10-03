@@ -81,7 +81,7 @@ class PublicationController extends Controller
         $publication->content = $request->input('content');
         $publication->user_id = Auth::id();
         $publication->categori_id = $request->input('categorie_id');
-        $publication->slug = Str::slug($request->input('title'),'_');
+        $publication->slug = Str::slug($request->input('title'),'_').'_'. Str::random(5);
 
         $file = $request->file('photo');
         $filename = time().'_'.$file->getClientOriginalName();
