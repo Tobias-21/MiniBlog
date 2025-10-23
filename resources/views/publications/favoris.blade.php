@@ -57,7 +57,7 @@
 
     @empty
 
-        <p class=" text-gray-700  text-center mt-5"> Aucun publication favori </p>
+        <p class=" text-gray-700  text-center mt-5"> Aucune publication favorie </p>
     @endforelse
 
     <div class=" mt-6">
