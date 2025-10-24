@@ -18,6 +18,12 @@
         </div>
     @endif
 
+    @php 
+        $userRating = Auth::user()?->ratings->find($publication->id)?->pivot->rating;
+        
+    @endphp
+    
+
     <div class="my-7 border-t-2 border-t-amber-500 ">
         <div class="my-5">
         <img src="{{ asset('storage/' . $publication->photo) }}" alt="Photo de l'publication" class=" w-2xs h-72 object-cover rounded-lg shadow-md">
@@ -29,7 +35,7 @@
 
     <div>
         @if (!auth()->check())
-            <p class=" bg-yellow-200 text-yellow-700 font-mono text-sm p-3"> Connectez-vous pour noter l'publication </p>
+            <p class=" bg-yellow-200 text-yellow-700 font-mono text-sm p-3"> Connectez-vous pour noter la publication </p>
         @else
         <form action="{{ route('ratings') }}" method="POST" class="flex items-center space-x-2">
             @csrf
@@ -40,9 +46,15 @@
                 @for ($i = 5; $i >= 1; --$i)
 
                     <input type="radio" name="rating" id="rating-{{ $i }}" value="{{ $i }}" class="hidden peer" >
-                    <label for="rating-{{ $i }}" class=" text-gray-500 peer-checked:text-yellow-500 cursor-pointer transition-color hover:text-yellow-600">
-                        <i class="bi bi-star"></i>
-                    </label> 
+                    @if ($userRating >= $i)
+                        <label for="rating-{{ $i }}" class=" text-yellow-500 peer-checked:text-yellow-500 cursor-pointer transition-color hover:text-yellow-600">
+                            <i class="bi bi-star-fill"></i>
+                        </label>
+                    @else
+                        <label for="rating-{{ $i }}" class=" text-gray-500 peer-checked:text-yellow-500 cursor-pointer transition-color hover:text-yellow-600">
+                            <i class="bi bi-star"></i>
+                        </label> 
+                    @endif
                    
                 @endfor
             </div>

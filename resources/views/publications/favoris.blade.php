@@ -14,12 +14,15 @@
     </x-slot:search>
 
     <x-slot:title>
-        Mes publications favoris
+        Mes publications favories
     </x-slot:title>
 
-    
+    @php
+        $userFavoris = auth()->user() ? auth()->user()->favoris->pluck('id')->toArray() : [];
+               
+    @endphp
 
-     @forelse($publications as $publication)
+    @forelse($publications as $publication)
 
     <div class=" px-9 py-4 shadow-md my-7 ">
         <div class=" mb-3">
@@ -30,7 +33,20 @@
 
         <div class=" flex space-x-3 mb-3 items-center">
             <h2 class=" text-2xl font-bold text-emerald-800"> {{ $publication->title }} </h2>
-            <button type="submit"> <i class="bi bi-heart-fill" style="color: red;"></i> </button>
+            <!--button type="submit"> <i class="bi bi-heart-fill" style="color: red;"></i> </button -->
+            @if (auth()->check() && auth()->user())
+                <form action=" {{ route('favoris') }} " method="post">
+                    @csrf
+                    @method('POST')
+
+                    <input type="hidden" value="{{ $publication->id }}" name="publication_id">
+                    @if ( in_array($publication->id, $userFavoris) )
+                        <button type="submit"> <i class="bi bi-heart-fill" style="color: red;"></i> </button>
+                    @else
+                        <button type="submit"> <i class="bi bi-heart" style="color: red;"></i> </button>
+                    @endif
+                </form>
+            @endif
         </div>
 
         <p class=" text-gray-700 font-mono text-sm"> Auteur : {{ $publication->user->name }} </p>
