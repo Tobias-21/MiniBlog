@@ -48,7 +48,7 @@
                     <input type="radio" name="rating" id="rating-{{ $i }}" value="{{ $i }}" class="hidden peer" >
                     @if ($userRating >= $i)
                         <label for="rating-{{ $i }}" class=" text-yellow-500 peer-checked:text-yellow-500 cursor-pointer transition-color hover:text-yellow-600">
-                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
                         </label>
                     @else
                         <label for="rating-{{ $i }}" class=" text-gray-500 peer-checked:text-yellow-500 cursor-pointer transition-color hover:text-yellow-600">
